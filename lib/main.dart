@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'services/weather_api.dart';
 import 'models/weather.dart';
+import 'screens/setting_screen.dart';
+import 'screens/city_selector_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -13,24 +16,66 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Weather App Flutter',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: FutureBuilder<Weather>(
-        future: fetchWeather(),
+      home: MainScreen(),
+    );
+  }
+}
+class MainScreen extends StatefulWidget {
+  @override
+  _MainScreenState createState() => _MainScreenState();
+}
+class _MainScreenState extends State<MainScreen> {
+  String cityName = 'Hanoi';
+  String unit = 'metric';
+  void navigateToCitySelectorScreen() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CitySelectorScreen()),
+    );
+
+    if (result != null) {
+      setState(() {
+        cityName = result;
+      });
+    }
+  }
+  void navigateToSettingScreen() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SettingScreen()),
+    );
+
+    if (result != null) {
+      setState(() {
+        unit = result;
+      });
+    }
+  }
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Weather App'),
+        actions: [
+          IconButton(
+            onPressed: navigateToCitySelectorScreen,
+            icon: const Icon(Icons.location_city),
+          ),
+          IconButton(
+              onPressed: navigateToSettingScreen,
+              icon: const Icon(Icons.settings)
+          ),
+        ],
+      ),
+      body: FutureBuilder<Weather>(
+        future: fetchWeather(cityName, unit),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return HomeScreen(weather: snapshot.data!);
+            return HomeScreen(weather: snapshot.data!, unit: unit);
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }

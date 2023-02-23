@@ -1,60 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'widgets/detail_card.dart';
-import 'package:weather_app_tansangle/services/weather_api.dart';
 import 'package:weather_app_tansangle/models/weather.dart';
 
 class HomeScreen extends StatefulWidget {
   Weather weather;
+  String unit;
 
   HomeScreen({super.key,
-  required this.weather});
+  required this.weather,
+  required this.unit});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String temperatureUnit = 'C';
+  String speedUnit = 'km/h';
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
+    if(widget.unit == 'metric'){
+      temperatureUnit = 'C';
+      speedUnit = 'm/s';
+    } else if(widget.unit == 'standard'){
+      temperatureUnit = 'K';
+      speedUnit = 'm/s';
+    } else if(widget.unit == 'imperial'){
+      temperatureUnit = 'F';
+      speedUnit = 'mph';
+    }
+    return SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(widget.weather.cityName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 40,
                   )),
               Text(DateFormat('EEEE h:mm a').format(widget.weather.dateTime),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                 ),
-              ),
-              Icon(
-                Icons.sunny,
-                size: 100,
-                color: Colors.orange,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     '${widget.weather.temperature}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 50,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text('\u00b0C',
+                  Text('\u00b0$temperatureUnit',
                     style: TextStyle(
                       fontSize: 45,
                       fontWeight: FontWeight.bold,
                     ),)
                 ],
               ),
+              Image.network('http://openweathermap.org/img/wn/${widget.weather.icon}@2x.png'),
               Text(widget.weather.weatherState,
                 style: TextStyle(
                   fontSize: 30,
@@ -67,11 +75,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         TableCell(
                           verticalAlignment: TableCellVerticalAlignment.middle,
-                            child: DetailCard(context, 'Feel Like:', widget.weather.feelLike.toString(), '\u00b0C')
+                            child: DetailCard(context, 'Feel Like:', widget.weather.feelLike, '\u00b0$temperatureUnit')
                         ),
                         TableCell(
                             verticalAlignment: TableCellVerticalAlignment.middle,
-                            child: DetailCard(context, 'Humidity:', widget.weather.humidity.toString(), '%')
+                            child: DetailCard(context, 'Humidity:', widget.weather.humidity, '%')
                         ),
                       ]
                   ),
@@ -79,11 +87,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         TableCell(
                             verticalAlignment: TableCellVerticalAlignment.middle,
-                            child: DetailCard(context, 'Pressure:', widget.weather.pressure.toString(), 'hPa')
+                            child: DetailCard(context, 'Pressure:', widget.weather.pressure, 'hPa')
                         ),
                         TableCell(
                             verticalAlignment: TableCellVerticalAlignment.middle,
-                            child: DetailCard(context, 'Wind Speed:', widget.weather.windSpeed.toString(), 'km/h')
+                            child: DetailCard(context, 'Wind Speed:', widget.weather.windSpeed, speedUnit)
                         ),
                       ]
                   ),
@@ -92,7 +100,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-      ),
     );
   }
 }

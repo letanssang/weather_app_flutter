@@ -1,22 +1,24 @@
-# Weather App Flutter
-This is a simple weather app built with Flutter that displays the current weather and 5-day forecast for a location.
+# Weather App
+## Author
+### Tan Sang Le
 
-## Features
-Get the current weather and 5-day forecast for a location
-View weather details such as temperature, humidity, wind speed, and more
-Search for a location by name or zip code
-Automatically detect user's location and display weather information
-Unit selection for temperature and wind speed
-Getting Started
+## Description
+A Flutter app that displays weather information<br /> 
+Get weather information using OpenWeather API<br />
+Display current temperature, time, humidity, pressure, and wind speed<br />
+Choose preferred location<br />
+Change unit of measurement<br />
+Toggle dark mode<br />
+# Screenshots
+![screenshot](https://user-images.githubusercontent.com/67082439/221759843-2edcb5cf-8dc7-4d41-9db1-89ffeb67ccde.png)
 
-## Usage
-Enter a location by name or zip code in the search bar
-Tap on a search result to view the weather information for that location
-Toggle between Celsius and Fahrenheit by tapping on the temperature units button
-Toggle between km/h and mph by tapping on the wind speed units button
-Swipe left or right on the forecast card to view the forecast for the next or previous day
-## Built With
-Flutter
-OpenWeatherMap API
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+## Dependencies
+http: ^0.13.4<br />
+intl: ^0.17.0<br />
+## Getting Started
+Clone this repository.<br />
+Run flutter pub get to install dependencies.<br />
+Run the app using flutter run.<br />
+
+## API Reference
+OpenWeather API

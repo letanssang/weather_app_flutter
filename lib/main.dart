@@ -37,7 +37,7 @@ class _MainScreenState extends State<MainScreen> {
       MaterialPageRoute(builder: (context) => CitySelectorScreen()),
     );
 
-    if (result != null) {
+    if (result != '' && result != null) {
       setState(() {
         cityName = result;
       });

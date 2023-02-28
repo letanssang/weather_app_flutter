@@ -8,6 +8,7 @@ class Weather {
   final num pressure;
   final num feelLike;
   final String icon;
+
   Weather({
     required this.cityName,
     required this.dateTime,
@@ -19,6 +20,7 @@ class Weather {
     required this.feelLike,
     required this.icon,
   });
+
   factory Weather.fromJson(Map<String, dynamic> json) {
     return Weather(
       cityName: json['name'],

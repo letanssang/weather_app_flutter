@@ -1,29 +1,31 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Widget DetailCard(BuildContext context, String title, num number,
-    String unit) {
+Widget detailCard(BuildContext context, String title, num number, String unit) {
   return Card(
-    margin: EdgeInsets.all(5),
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Text('$title',
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-              ),),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('$number $unit',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),),
-              ],
+    margin: const EdgeInsets.all(5),
+    child: Container(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontStyle: FontStyle.italic,
             ),
-          ],
-        ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '$number $unit',
+                style: const TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
-    );
+    ),
+  );
 }

@@ -9,24 +9,40 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+
   // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+  static _MyAppState of(BuildContext context) {
+    return context.findAncestorStateOfType<_MyAppState>()!;
+  }
+}
+class _MyAppState extends State<MyApp> {
+  static ThemeMode themeMode = ThemeMode.system;
+  void changeTheme (ThemeMode newThemeMode) {
+    setState(() {
+      themeMode = newThemeMode;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Weather App Flutter',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MainScreen(),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: themeMode,
+      home: const MainScreen(),
     );
   }
 }
 class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
   @override
-  _MainScreenState createState() => _MainScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 class _MainScreenState extends State<MainScreen> {
   String cityName = 'Hanoi';
@@ -34,7 +50,7 @@ class _MainScreenState extends State<MainScreen> {
   void navigateToCitySelectorScreen() async {
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => CitySelectorScreen()),
+      MaterialPageRoute(builder: (context) => const CitySelectorScreen()),
     );
 
     if (result != '' && result != null) {
@@ -46,7 +62,7 @@ class _MainScreenState extends State<MainScreen> {
   void navigateToSettingScreen() async {
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => SettingScreen()),
+      MaterialPageRoute(builder: (context) => const SettingScreen()),
     );
 
     if (result != null) {
@@ -55,6 +71,7 @@ class _MainScreenState extends State<MainScreen> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
